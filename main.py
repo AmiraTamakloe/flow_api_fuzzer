@@ -30,11 +30,22 @@ def generate_excursions(num):
     for _ in range(num):
         excursion = fuzzer.generate()
         response = post_request(f"{API_BASE_URL}/excursions", json.dumps(excursion))
-        for _ in range(4) :
-            excursion_id = response.json()["id"]
-            user_excursion = fuzzer.generate_user_excursion(excursion_id)
-            response = post_request(f"http://localhost:8080/api/excursions/join", json.dumps(user_excursion))
         print(response.status_code, response.text)
+
+        try:
+            excursion_data = response.json()
+            excursion_id = excursion_data["id"]
+        except (KeyError, ValueError) as e:
+            print("Failed to extract excursion ID:", e, response.text)
+            continue
+
+        for _ in range(4):
+            user_excursion = fuzzer.generate_user_excursion(excursion_id)
+            join_response = post_request(
+                f"http://localhost:8080/api/excursions/join",
+                json.dumps(user_excursion)
+            )
+            print(join_response.status_code, join_response.text)
 
 def generate_users(num):
     orgs_response = get_request(f"{API_BASE_URL}/organizations")

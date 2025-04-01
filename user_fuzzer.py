@@ -1,8 +1,9 @@
 import random
 from base_fuzzer import BaseFuzzer
+import base64
+
 
 class UserFuzzer:
-    PLACEHOLDER_IMAGE_URL = "https://www.google.com"
 
     def __init__(self, organization_ids):
         self.organization_ids = organization_ids
@@ -17,7 +18,9 @@ class UserFuzzer:
 
     @staticmethod
     def random_image_url():
-        return UserFuzzer.PLACEHOLDER_IMAGE_URL
+        with open("./IMG_4264.jpeg", "rb") as image_file:
+            base64_string = base64.b64encode(image_file.read()).decode('utf-8')
+        return "data:image/jpeg;base64," + base64_string
 
     @staticmethod
     def random_inscription_date():

@@ -1,13 +1,11 @@
 import random
+import base64
 
 class OrganizationFuzzer:
     PREFIXES = ["North", "South", "East", "West", "Central", "New", "Saint", "United", "Royal", "Grand"]
     NAMES = ["Valley", "Mountain", "River", "Forest", "Harbor", "Coast", "Lake", "Hill", "Field", "Bay"]
     TYPES = ["University", "Institute of Technology", "College", "Polytechnic", "Academy", "School of Science"]
     COLOUR_THEMES = ["Red", "Blue", "Green"]
-    PLACEHOLDER_LOGO = (
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=="
-    )
 
     @staticmethod
     def random_university_name():
@@ -21,7 +19,9 @@ class OrganizationFuzzer:
 
     @staticmethod
     def random_base64_logo():
-        return OrganizationFuzzer.PLACEHOLDER_LOGO
+        with open("./7FBF7F5C-A282-466F-A232-7A16C92D92C2_1_105_c.jpeg", "rb") as image_file:
+            base64_string = base64.b64encode(image_file.read()).decode('utf-8')
+        return "data:image/jpeg;base64," + base64_string
 
     def generate(self):
         return {
