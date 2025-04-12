@@ -2,9 +2,10 @@ import random
 from datetime import datetime, timedelta
 
 class SampleFuzzer:
-    def __init__(self, user_ids=None, excursion_ids=None):
+    def __init__(self, user_ids=None, excursion_ids=None, organization_ids=None):
         self.user_ids = user_ids or []
         self.excursion_ids = excursion_ids or []
+        self.organization_ids = organization_ids or []
 
     @staticmethod
     def random_date(start_year=2018, end_year=None):
@@ -43,6 +44,7 @@ class SampleFuzzer:
         return {
             "user_id": random.choice(self.user_ids) if self.user_ids else None,
             "excursion_id": random.choice(self.excursion_ids) if self.excursion_ids else None,
+            "organization_id": random.choice(self.organization_ids) if self.organization_ids else None,
             "sample_date": sample_date.isoformat(),
             "sample_time": sample_time.isoformat(),
             "high_tide_time": high_tide_time.isoformat(),
